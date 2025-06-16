@@ -2,7 +2,7 @@ body {
   font-size: 15px;
   padding: 10px;
   font-family: sans-serif;
-  background-color: rgb(244, 235, 204);
+  background-color: rgb(231, 243, 247);
 }
 
 
@@ -41,16 +41,16 @@ body {
 
 .submit-btn{
   align-self: center;
-  background-color: rgb(98, 98, 241);
+  background-color: rgb(105, 192, 246);
   border-radius: 20px;
-  border: none;
+  border: 1px solid #5ca1f5  ;
   color: white;
   height: 30px;
   width: 50%;
 }
 
 .submit-btn:hover{
-  background-color: rgb(26, 26, 232);
+  background-color: rgb(50, 148, 239);
   border-radius: 20px;
   color: white;
   cursor: pointer;
