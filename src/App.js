@@ -53,7 +53,7 @@ function App() {
               <li className='res-link'>Command Logs URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.command_logs_url}>Link</a></li>
               <li className='res-link'>Selenium Logs URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.selenium_logs_url}>Link</a></li>
               <li className='res-link'>Screenshots URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.screenshot_url}>Link</a></li>
-              <li className='res-link'>Public URL (Execution Video and Logs): <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.public_url}>Link</a></li>
+              <li className='res-link'>Public URL (Execution video and Logs): <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.public_url}>Link</a></li>
             </ul>
           </div>
         </div>
