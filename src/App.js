@@ -25,8 +25,11 @@ function App() {
     try {
       const response = await fetch(url, { method: 'GET', headers });
       const data = await response.json();
-      setTestId(data.data.test_id);
-      console.log(testId);
+      const currentTestId = data.data.test_id;
+      console.log("Current Test ID:", currentTestId);
+      setTestId(currentTestId);
+      console.log("Data:", data);
+      console.log("Test ID:", testId);
       if (!response.ok){
         setErrorMessage(true);
         setErrorContent(data);
@@ -39,25 +42,23 @@ function App() {
         setReceivedData(data);
         console.log(receivedData);
       }
+
+      const url2 = `https://api.lambdatest.com/lshs/api/v1.0/share-item/generate-sharable-link`;
+      const session_id = currentTestId;
+      const apiBody = {"entityIds":[`${session_id}`],"entityType":"App Automation Test", "expiresAt":15};
+
+      const response2 = await fetch(url2, { method: 'POST', headers, body: JSON.stringify(apiBody) });
+      const data2 = await response2.json();
+      console.log('Data2: ', data2);
+      console.log('Shareable link:', data2.shareIdUrl);
+      setShareableLink(data2.shareIdUrl);
+
     } catch (error) {
       console.error('Error fetching logs:', error);
       setUnexpectedError(true);
       setErrorContent({ message: 'Unexpected error occurred' });
       setResponseReceived(false);
       setReceivedData(null);
-    }
-
-    const url2 = `https://api.lambdatest.com/lshs/api/v1.0/share-item/generate-sharable-link`;
-    const session_id = testId;
-    const apiBody = {"entityIds":[`${session_id}`],"entityType":"App Automation Test", "expiresAt":15}
-    try {
-      const response = await fetch(url2, { method: 'POST', headers, body: JSON.stringify(apiBody) });
-      const data2 = await response.json();
-      console.log('Data2: ', data2);
-      console.log('Shareable link:', data2.shareIdUrl);
-      setShareableLink(data2.shareIdUrl);
-    } catch (error) {
-      console.error('Error generating shareable link:', error);
     }
   };
 
