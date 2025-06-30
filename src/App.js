@@ -7,7 +7,11 @@ function App() {
   const [password, setPassword] = useState();
   const [sessionId, setSessionId] = useState();
   const [responseReceived, setResponseReceived] = useState(false);
-  const [receivedData, setreceivedData] = useState(false);
+  const [receivedData, setReceivedData] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [errorContent, setErrorContent] = useState(false);
+  const [unexpectedError, setUnexpectedError] = useState(false);
+
 
   const fetchLogs = async (e) => {
     e.preventDefault();
@@ -17,13 +21,24 @@ function App() {
     };
     try {
       const response = await fetch(url, { method: 'GET', headers });
-      if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
-      console.log(data);
-      setResponseReceived(true);
-      setreceivedData(data);
+      if (!response.ok){
+        setErrorMessage(true);
+        setErrorContent(data);
+        setResponseReceived(false);
+        setReceivedData(null);
+      }
+      else{
+        setErrorMessage(false);
+        setResponseReceived(true);
+        setReceivedData(data);
+      }
     } catch (error) {
       console.error('Error fetching logs:', error);
+      setUnexpectedError(true);
+      setErrorContent({ message: 'Unexpected error occurred' });
+      setResponseReceived(false);
+      setReceivedData(null);
     }
   };
 
@@ -43,7 +58,7 @@ function App() {
           <button className = "submit-btn" type="submit" onClick={fetchLogs}>Get Session Info</button>
         </form>
 
-      {responseReceived ? (
+      {responseReceived && (
         <div className="response">
           <div className="response-container">
             <h3 className='response-heading'>Response Received</h3>
@@ -57,12 +72,27 @@ function App() {
             </ul>
           </div>
         </div>
-      ) : (
+      )}
+      {!responseReceived && !errorMessage && (
         <div className="no-response">
           <h3>No Response Yet</h3>
           <p>Enter your details and click the button to fetch session info.</p>
         </div>
       )}
+
+      {errorMessage ? (
+        <div className="no-response">
+          <h3>Error Occurred</h3>
+          <p>{errorContent.message}</p>
+        </div>
+      ) : null}
+
+      {unexpectedError ? (
+        <div className="no-response">
+          <h3>Unexpected Error</h3>
+          <p>{errorContent.message}</p>
+        </div>
+      ) : null}
     </div>
   );
 }
