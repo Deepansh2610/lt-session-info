@@ -11,6 +11,9 @@ function App() {
   const [errorMessage, setErrorMessage] = useState(false);
   const [errorContent, setErrorContent] = useState(false);
   const [unexpectedError, setUnexpectedError] = useState(false);
+  const [shareableLink, setShareableLink] = useState(false);
+  const [testId, setTestId] = useState(false);
+
 
 
   const fetchLogs = async (e) => {
@@ -22,6 +25,8 @@ function App() {
     try {
       const response = await fetch(url, { method: 'GET', headers });
       const data = await response.json();
+      setTestId(data.data.test_id);
+      console.log(testId);
       if (!response.ok){
         setErrorMessage(true);
         setErrorContent(data);
@@ -40,6 +45,19 @@ function App() {
       setErrorContent({ message: 'Unexpected error occurred' });
       setResponseReceived(false);
       setReceivedData(null);
+    }
+
+    const url2 = `https://api.lambdatest.com/lshs/api/v1.0/share-item/generate-sharable-link`;
+    const session_id = testId;
+    const apiBody = {"entityIds":[`${session_id}`],"entityType":"App Automation Test", "expiresAt":15}
+    try {
+      const response = await fetch(url2, { method: 'POST', headers, body: JSON.stringify(apiBody) });
+      const data2 = await response.json();
+      console.log('Data2: ', data2);
+      console.log('Shareable link:', data2.shareIdUrl);
+      setShareableLink(data2.shareIdUrl);
+    } catch (error) {
+      console.error('Error generating shareable link:', error);
     }
   };
 
@@ -72,6 +90,7 @@ function App() {
               <li className='res-link'>Crash Logs URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.crash_logs_url}>Link</a></li>
               <li className='res-link'>Screenshots URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.screenshot_url}>Link</a></li>
               <li className='res-link'>Execution Video URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.video_url}>Link</a></li>
+              <li className='res-link'>Shareable Link (Execution video and Commands executed): <a rel="noopener noreferrer" target="_blank" href= {shareableLink}>Link</a></li>
             </ul>
           </div>
         </div>
