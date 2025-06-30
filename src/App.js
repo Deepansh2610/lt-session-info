@@ -15,7 +15,7 @@ function App() {
 
   const fetchLogs = async (e) => {
     e.preventDefault();
-    const url = `https://api.lambdatest.com/automation/api/v1/sessions/${sessionId}`;
+    const url = `https://mobile-api.lambdatest.com/mobile-automation/api/v1/sessions/${sessionId}`;
     const headers = {
       'Authorization': `Basic ${btoa(`${username}:${password}`)}`,
     };
@@ -32,6 +32,8 @@ function App() {
         setErrorMessage(false);
         setResponseReceived(true);
         setReceivedData(data);
+        console.log(receivedData);
+        console.log(receivedData.data.public_url);
       }
     } catch (error) {
       console.error('Error fetching logs:', error);
@@ -66,9 +68,11 @@ function App() {
               <li className='res-link'>Console Logs URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.console_logs_url}>Link</a></li>
               <li className='res-link'>Network Logs URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.network_logs_url}>Link</a></li>
               <li className='res-link'>Command Logs URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.command_logs_url}>Link</a></li>
-              <li className='res-link'>Selenium Logs URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.selenium_logs_url}>Link</a></li>
+              <li className='res-link'>Appium Logs URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.appium_logs_url}>Link</a></li>
+              <li className='res-link'>Device Logs URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.device_logs_url}>Link</a></li>
+              <li className='res-link'>Crash Logs URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.crash_logs_url}>Link</a></li>
               <li className='res-link'>Screenshots URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.screenshot_url}>Link</a></li>
-              <li className='res-link'>Public URL (Execution video and Logs): <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.public_url}>Link</a></li>
+              <li className='res-link'>Execution Video URL: <a rel="noopener noreferrer" target="_blank" href= {receivedData.data.video_url}>Link</a></li>
             </ul>
           </div>
         </div>
