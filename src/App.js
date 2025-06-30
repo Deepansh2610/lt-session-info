@@ -33,7 +33,6 @@ function App() {
         setResponseReceived(true);
         setReceivedData(data);
         console.log(receivedData);
-        console.log(receivedData.data.public_url);
       }
     } catch (error) {
       console.error('Error fetching logs:', error);
